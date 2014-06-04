@@ -1,11 +1,20 @@
+require_relative 'divisible'
+
 class Year
-  def self.leap?(year)
-    return true if divisible_by?(400,year)
-    return true if divisible_by?(4,year) unless divisible_by?(100,year)
-    return false
+  include Divisible
+
+  def initialize(year)
+    @year = year
   end
 
-  def self.divisible_by?(x,year)
-    year % x == 0
+  def self.leap?(year)
+    new(year).leap? 
+  end
+
+  def leap?
+    return true if divisible_by_four_hundred?(@year)
+    return false if divisible_by_one_hundred?(@year)
+    return true if divisible_by_four?(@year)
+    return false
   end
 end
